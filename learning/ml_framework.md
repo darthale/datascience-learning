@@ -75,16 +75,14 @@ For NN:
 Your goal at this stage is to achieve statistical power: that is, to develop a small model that is capable of beating a dumb baseline. 
 
 
-**Note**: *it’s not always possible to achieve statistical power. If you can’t beat a random baseline after trying multiple reasonable architectures, it may be that the answer
-to the question you’re asking isn’t present in the input data. Remember that you make
-two hypotheses:
-- You hypothesize that your outputs can be predicted given your inputs.
-- You hypothesize that the available data is sufficiently informative to learn the
-relationship between inputs and outputs.
+*Note: it’s not always possible to achieve statistical power. If you can’t beat a random baseline after trying multiple reasonable architectures, it may be that the answer
+to the question you’re asking isn’t present in the input data. Remember that you make two hypotheses:
+
+*- You hypothesize that your outputs can be predicted given your inputs.*
+*- You hypothesize that the available data is sufficiently informative to learn the relationship between inputs and outputs.*
 
 
-It may well be that these hypotheses are false, in which case you must go back to the
-drawing board.*
+*It may well be that these hypotheses are false, in which case you must go back to the drawing board.*
 
 Assuming that things go well, you need to make three key choices to build your first working model:
 
