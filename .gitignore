@@ -1,6 +1,7 @@
 .dlenv
 .dlenv/*
 
+.DS_Store
 
 week2
 week2/*

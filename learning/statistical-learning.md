@@ -1,14 +1,13 @@
 - [Intro](#intro)
-  - [Cross-validation](#cross-validation)
-  - [Regularization and model selection](#regularization-and-model-selection)
-      - [Shrinkage methods](#shrinkage-methods)
-  - [Tree-Based methods](#tree-based-methods)
-  - [Bagging, Random Forests, Boosting (Ensemble methods)](#bagging-random-forests-boosting-ensemble-methods)
-    - [Bagging](#bagging)
-    - [Random Forests](#random-forests)
-    - [Boosting](#boosting)
-    - [Useful resources on ensemble learning](#useful-resources-on-ensemble-learning)
-
+- [Cross-validation](#cross-validation)
+- [Regularization and model selection](#regularization-and-model-selection)
+  * [Shrinkage methods](#shrinkage-methods)
+- [Tree-Based methods](#tree-based-methods)
+  * [Bagging, Random Forests, Boosting (Ensemble methods)](#bagging--random-forests--boosting--ensemble-methods-)
+  * [Bagging](#bagging)
+  * [Random Forests](#random-forests)
+  * [Boosting](#boosting)
+  * [Useful resources on ensemble learning](#useful-resources-on-ensemble-learning)
 
 # Intro
 
@@ -17,7 +16,7 @@ The goal of this repository is to approach statistical learning through a mix of
 As we proceed through new chapters, we'll briefly summarise what learnt and update a table of contents that could be useful to navigate the space for future projects.
 
 
-## Cross-validation
+# Cross-validation
 
 Cross-validation:
 
@@ -42,7 +41,7 @@ The general procedure is as follows:
 Importantly, each observation in the data sample is assigned to an individual group and stays in that group for the duration of the procedure. This means that each sample is given the opportunity to be used in the hold out set 1 time and used to train the model k-1 times.
 
 
-## Regularization and model selection
+# Regularization and model selection
 
 Here we talk about linear models and a different fitting procedure instead of least squares. These procedures can yield better:
 
@@ -56,7 +55,10 @@ There are different methods:
 - shrinkage: fitting a model to the p predictors and then shrink the estimated coeff towards zero. This is called regularization and has the effect of reducing variance. We can also end up with coefficients to zero and in this case the method will perform variables selection
 - dimension reduction: PCA
 
-#### Shrinkage methods
+
+
+## Shrinkage methods
+
 
 The 2 most common methods are **Ridge Regression** and **Lasso Regression**. 
 
@@ -84,7 +86,7 @@ We can use cross-validation to find the value for the tuning parameter:
 3. The model is re-fit using all of the available obsvervations and the selected value of the tuning parameter
 
 
-## Tree-Based methods
+# Tree-Based methods
 
 In this chapter, we describe tree-based methods for regression and classification. These involve stratifying or segmenting the predictor space into a number of simple regions. In order to make a prediction for a given observation, we typically use the mean or the mode of the training observations in the region to which it belongs. Since the set of splitting rules used
 to segment the predictor space can be summarized in a tree, these types of approaches are known as decision tree methods.
@@ -105,13 +107,15 @@ create dummy variables
 - Trees generally do not have a good level of predictive accuracy 
 - Trees can be very non-robust. A small change in the data can cause a large change in the final estimated tree
 
+
 ## Bagging, Random Forests, Boosting (Ensemble methods)
 
 Aggregating many decision trees, using methods like bagging, random forests, and boosting, can lead to a substantial improvement in the predictive performance of trees.
 
 Bagging, random forests, and boosting use trees as building blocks to construct more powerful prediction models.
 
-### Bagging
+
+## Bagging
 
 Bootstrap aggregation, or bagging, is a general-purpose procedure for reducing the variance of a statistical learning method. It is particularly useful and frequently used in the context of decision trees.
 
@@ -130,7 +134,7 @@ The process would look like:
 Bagging improves prediction accuracy at the cost of interpretability.
 We can still calculate the importance of each variable in the resulting tree, either by using the RSS (for regression trees) or the Gini index (for classification trees).
 
-### Random Forests
+## Random Forests
 
 Random forests provide an improvement over bagged trees by way of a random small tweak that decorrelates the trees. 
 
@@ -143,13 +147,13 @@ Random forests overcome this problem by forcing each split to consider only a su
 The main difference between bagging and random forests is the choice of predictor subset size m.
 
 
-### Boosting
+## Boosting
 
 Boosting works in a similar way, except that the trees are grown sequentially: each tree is grown using information from previously grown trees. Boosting does not involve bootstrap sampling; instead each tree is fit on a modified version of the original data set.
 
 Boosting reduces variance, and also reduces bias. It reduces variance because you are using multiple models (bagging). It reduces bias by training the subsequent model by telling him what errors the previous models made (the boosting part).
 
 
-### Useful resources on ensemble learning
+## Useful resources on ensemble learning
 
 - https://www.analyticsvidhya.com/blog/2018/06/comprehensive-guide-for-ensemble-models/
