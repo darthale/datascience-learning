@@ -115,6 +115,7 @@ This is fairly easy:
 
 Always monitor the training loss and validation loss, as well as the training and validation values for any metrics you care about. When you see that the model’s performance on the validation data begins to degrade, you’ve achieved overfitting.
 
+At this stage, you are tuning your **hyperparameters** (that differ from the **parameters** of the model you have chosen upon, the weights are the parameters of the model). So **hyperparameters tuning** is done using the validation set. 
 The next stage is to start regularizing and tuning the model, to get as close as possible to the ideal model that neither underfits nor overfits. 
 
 
