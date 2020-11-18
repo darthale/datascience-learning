@@ -1,4 +1,3 @@
-- [Intro](#intro)
 - [1. Problem definition and dataset](#1-problem-definition-and-dataset)
 - [2. Measuring success](#2-measuring-success)
 - [3. Stategy to evaluate your model](#3-stategy-to-evaluate-your-model)
@@ -8,7 +7,6 @@
 - [7. Regularization](#7-regularization)
 
 
-# Intro
 
 The goal of this document is to define a generalised framework to leverage when approaching a machine learning problem. There are going to be references specific to deep learning, but all the elements of the framework can be applied to other statistical learning methods.
 
