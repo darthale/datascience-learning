@@ -5,7 +5,7 @@
 - [5. Model architecture](#5-model-architecture)
 - [6. Developing a model that overfits](#6-developing-a-model-that-overfits)
 - [7. Regularization](#7-regularization)
-
+    + [7.a A bias variance framework](#7a-a-bias-variance-framework)
 
 
 The goal of this document is to define a generalised framework to leverage when approaching a machine learning problem. There are going to be references specific to deep learning, but all the elements of the framework can be applied to other statistical learning methods.
@@ -49,6 +49,7 @@ to have to define your own custom metric by which to measure success.
 
 Once you know what you’re aiming for, you must establish how you’ll measure your
 current progress. Three common approaches are:
+
 1. Maintaining a hold-out validation set: the way to go when you have plenty of
 data
 2. Doing K-fold cross-validation: the right choice when you have too few samples
@@ -124,7 +125,8 @@ The next stage is to start regularizing and tuning the model, to get as close as
 This step will take the most time: you’ll repeatedly modify your model, train it, evaluate on your validation data (not the test data, at this point), modify it again, and repeat, until the model is as good as it can get. 
 
 
-For NN, these are some things you should try:
+For NN, these are some things you should try to get a model that perform better on the validation set:
+
  - Add dropout.
  - Try different architectures: add or remove layers.
  - Add L1 and/or L2 regularization.
@@ -138,5 +140,17 @@ Repeated just a few times, this is innocuous; but done systematically over many 
 
 
 Once you’ve developed a satisfactory model configuration, you can train your final production model on all the available data (training and validation) and evaluate it
-one last time on the test set. If it turns out that performance on the test set is significantly worse than the performance measured on the validation data, this may mean either that your validation procedure wasn’t reliable after all, or that you began overfitting to the validation data while tuning the parameters of the model. In this case, you may want to switch to a more reliable evaluation protocol (such as iterated K-fold
-validation). 
+one last time on the test set. If it turns out that performance on the test set is significantly worse than the performance measured on the validation data, this may mean either that your validation procedure wasn’t reliable after all, or that you began overfitting to the validation data while tuning the parameters of the model. In this case, you may want to switch to a more reliable evaluation protocol (such as iterated K-fold validation). 
+
+
+### 7.a A bias variance framework
+
+We can think of our framework as an iterative process. As the picture below shows, we usually start with a simple NN with *high bias*. Once we implemented few steps to reduce bias, we examine the NN 
+variance against the validation set. If we have *high variance* (overfitting on validation set), we can try to reduce it by applying regularizaion techniques such us L1 vs L2 or dropouts. 
+
+In general, the idea behind dropout and L2 is to simplifying the network architecture. Either by removing units within layers (dropout) or having smaller values for the weight in each units (L2).
+
+![Bians-variance framework](bias-variance_framework.jpg)
+
+
+

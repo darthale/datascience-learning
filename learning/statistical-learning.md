@@ -15,6 +15,9 @@ The goal of this repository is to approach statistical learning through a mix of
 
 As we proceed through new chapters, we'll briefly summarise what learnt and update a table of contents that could be useful to navigate the space for future projects.
 
+# Bias Variance trade-off
+
+
 
 # Cross-validation
 
