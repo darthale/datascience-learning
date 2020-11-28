@@ -18,7 +18,6 @@ As we proceed through new chapters, we'll briefly summarise what learnt and upda
 # Bias Variance trade-off
 
 
-
 # Cross-validation
 
 Cross-validation:

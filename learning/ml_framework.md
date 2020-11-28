@@ -32,28 +32,21 @@ Keep in mind that machine learning can only be used to memorize patterns that ar
 
 # 2. Measuring success 
 
-To control something, you need to be able to observe it. To achieve success, you must
-define what you mean by success—accuracy? Precision and recall? Customer-retention
-rate? Your metric for success will guide the choice of a loss function: what your model
-will optimize. It should directly align with your higher-level goals, such as the success
+To control something, you need to be able to observe it. To achieve success, you must define what you mean by success—accuracy? Precision and recall? Customer-retention
+rate? Your metric for success will guide the choice of a loss function: what your model will optimize. It should directly align with your higher-level goals, such as the success
 of your business.
 
 
-For balanced-classification problems, where every class is equally likely, accuracy and
-area under the receiver operating characteristic curve (ROC AUC) are common metrics. For
-class-imbalanced problems, you can use precision and recall. For ranking problems or
-multilabel classification, you can use mean average precision. And it isn’t uncommon
+For balanced-classification problems, where every class is equally likely, accuracy and area under the receiver operating characteristic curve (ROC AUC) are common metrics. For
+class-imbalanced problems, you can use precision and recall. For ranking problems or multilabel classification, you can use mean average precision. And it isn’t uncommon
 to have to define your own custom metric by which to measure success. 
 
 # 3. Stategy to evaluate your model
 
-Once you know what you’re aiming for, you must establish how you’ll measure your
-current progress. Three common approaches are:
+Once you know what you’re aiming for, you must establish how you’ll measure your current progress. Three common approaches are:
 
-1. Maintaining a hold-out validation set: the way to go when you have plenty of
-data
-2. Doing K-fold cross-validation: the right choice when you have too few samples
-for hold-out validation to be reliable
+1. Maintaining a hold-out validation set: the way to go when you have plenty ofdata
+2. Doing K-fold cross-validation: the right choice when you have too few samplesfor hold-out validation to be reliable
 3. Doing iterated K-fold validation: for performing highly accurate model evaluation when little data is available
 
 Just pick one of these. 
@@ -94,19 +87,15 @@ a binary classification problem you could use **binary_crossentropy**, a regress
 3. *Optimization configuration*: what optimizer will you use? What will its learning rate be? 
 
 
-Regarding the choice of a loss function, note that it isn’t always possible to directly
-optimize for the metric that measures success on a problem. Sometimes there is no easy way to turn a metric into a loss function; loss functions, after all, need to be computable given only a mini-batch of data (ideally, a loss function should be computable for as little as a single data point) and must be differentiable (otherwise, you can’t use backpropagation to train your network). 
+Regarding the choice of a loss function, note that it isn’t always possible to directly optimize for the metric that measures success on a problem. Sometimes there is no easy way to turn a metric into a loss function; loss functions, after all, need to be computable given only a mini-batch of data (ideally, a loss function should be computable for as little as a single data point) and must be differentiable (otherwise, you can’t use backpropagation to train your network). 
 
 For instance, the widely used classification metric ROC AUC can’t be directly optimized. Hence, in classification tasks, it’s common to optimize for a proxy metric of ROC AUC, such as crossentropy. In general, you can hope that the lower the crossentropy gets, the higher the ROC AUC will be.
 
 # 6. Developing a model that overfits
 
-Once you’ve obtained a model that has statistical power, the question becomes, is your
-model sufficiently powerful? Does it have enough layers and parameters to properly
-model the problem at hand  Remember that the universal tension in machine learning is between
-optimization and generalization; the ideal model is one that stands right at the border
+Once you’ve obtained a model that has statistical power, the question becomes, is your model sufficiently powerful? Does it have enough layers and parameters to properly
+model the problem at hand? **Remember that the universal tension in machine learning is between optimization and generalization**; the ideal model is one that stands right at the border
 between underfitting and overfitting; between undercapacity and overcapacity. To figure out where this border lies, first you must cross it. To figure out how big a model you’ll need, you must develop a model that overfits.
-
 
 This is fairly easy:
 
@@ -116,8 +105,10 @@ This is fairly easy:
 
 Always monitor the training loss and validation loss, as well as the training and validation values for any metrics you care about. When you see that the model’s performance on the validation data begins to degrade, you’ve achieved overfitting.
 
-At this stage, you are tuning your **hyperparameters** (that differ from the **parameters** of the model you have chosen upon, the weights are the parameters of the model). So **hyperparameters tuning** is done using the validation set. 
-The next stage is to start regularizing and tuning the model, to get as close as possible to the ideal model that neither underfits nor overfits. 
+At this stage, you are tuning your **hyperparameters** (that differ from the **parameters** of the model you have chosen upon, the weights are the parameters of the model). So **hyperparameters tuning** is done using the validation set. The next stage is to start regularizing and tuning the model (also here you will leverage hyperparameters), to get as close as possible to the ideal model that neither underfits nor overfits. 
+
+In general, at this stage you are looking to reduce the bias of you model by working on the cost function that you aim to optimize. This leads to low bias, but maybe high variance and you'll tackle that 
+in the next step.
 
 
 # 7. Regularization
@@ -130,6 +121,7 @@ For NN, these are some things you should try to get a model that perform better 
  - Add dropout.
  - Try different architectures: add or remove layers.
  - Add L1 and/or L2 regularization.
+ - Early stopping.
  - Try different hyperparameters (such as the number of units per layer or the learning rate of the optimizer) to find the optimal configuration.
  - Optionally, iterate on feature engineering: add new features, or remove features that don’t seem to be informative.
 
