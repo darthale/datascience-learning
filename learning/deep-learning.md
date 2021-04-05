@@ -1,10 +1,21 @@
 - [Intro](#intro)
 - [Deep learning vs Other ML approaches](#deep-learning-vs-other-ml-approaches)
+  * [Deep learning](#deep-learning)
+    + [Differences with shallow learning approaches](#differences-with-shallow-learning-approaches)
 - [Deep learning building blocks](#deep-learning-building-blocks)
   * [Neural network anatomy](#neural-network-anatomy)
   * [Layers](#layers)
   * [Models](#models)
   * [Loss functions and optimizers](#loss-functions-and-optimizers)
+  * [Putting all together](#putting-all-together)
+- [Deep Learning - Reference Framework](#deep-learning---reference-framework)
+  * [1. Problem definition and dataset](#1-problem-definition-and-dataset)
+  * [2. Measuring success](#2-measuring-success)
+  * [3. Stategy to evaluate your model](#3-stategy-to-evaluate-your-model)
+  * [4. Data preparation](#4-data-preparation)
+  * [5. Model architecture](#5-model-architecture)
+  * [6. Developing a model that overfits](#6-developing-a-model-that-overfits)
+  * [7. Regularization](#7-regularization)
 
 # Intro
 
@@ -91,19 +102,10 @@ If we put all of the above together, we can summarise using this diagram:
 
 # Deep Learning - Reference Framework
 
-- [1. Problem definition and dataset](#1-problem-definition-and-dataset)
-- [2. Measuring success](#2-measuring-success)
-- [3. Stategy to evaluate your model](#3-stategy-to-evaluate-your-model)
-- [4. Data preparation](#4-data-preparation)
-- [5. Model architecture](#5-model-architecture)
-- [6. Developing a model that overfits](#6-developing-a-model-that-overfits)
-- [7. Regularization](#7-regularization)
-    + [7.a A bias variance framework](#7a-a-bias-variance-framework)
 
+The goal of this paragraph is to define a generalised framework to leverage when approaching a machine learning problem. There are going to be references specific to deep learning, but all the elements of the framework can be applied to other statistical learning methods.
 
-The goal of this document is to define a generalised framework to leverage when approaching a machine learning problem. There are going to be references specific to deep learning, but all the elements of the framework can be applied to other statistical learning methods.
-
-# 1. Problem definition and dataset
+## 1. Problem definition and dataset
 
 1. What will your input data be? What are you trying to predict? You can only learn to predict something if you have available training data: for example, you can
 only learn to classify the sentiment of movie reviews if you have both movie reviews and sentiment annotations available. Data availability is usually the limiting factor at this stage 
@@ -115,15 +117,22 @@ You can’t move to the next stage until you know what your inputs and outputs a
 
 Until you have a working model, these are merely hypotheses, waiting to be validated or invalidated. Not all problems can be solved; just because you’ve assembled examples of inputs X and targets Y doesn’t mean X contains enough information to predict Y.
 
-One class of unsolvable problems you should be aware of is *nonstationary problems*. Suppose you’re trying to build a recommendation engine for clothing, you’re training
+
+<details>
+<summary>
+<i>Non-stationary problems note</i>
+</summary>
+<p>One class of unsolvable problems you should be aware of is *nonstationary problems*. Suppose you’re trying to build a recommendation engine for clothing, you’re training
 it on one month of data (August), and you want to start generating recommendations in the winter. One big issue is that the kinds of clothes people buy change from season
 to season: clothes buying is a nonstationary phenomenon over the scale of a few months. What you’re trying to model changes over time. In this case, the right move is
 to constantly retrain your model on data from the recent past, or gather data at a timescale where the problem is stationary. For a cyclical problem like clothes buying, a
 few years’ worth of data will suffice to capture seasonal variation—but remember to make the time of the year an input of your model.
 
-Keep in mind that machine learning can only be used to memorize patterns that are present in your training data. You can only recognize what you’ve seen before. Using machine learning trained on past data to predict the future is making the assumption that the future will behave like the past. That often isn’t the case. 
+Keep in mind that machine learning can only be used to memorize patterns that are present in your training data. You can only recognize what you’ve seen before. Using machine learning trained on past data to predict the future is making the assumption that the future will behave like the past. That often isn’t the case.</p>
+</details>
 
-# 2. Measuring success 
+
+## 2. Measuring success 
 
 To control something, you need to be able to observe it. To achieve success, you must define what you mean by success—accuracy? Precision and recall? Customer-retention
 rate? Your metric for success will guide the choice of a loss function: what your model will optimize. It should directly align with your higher-level goals, such as the success
@@ -134,7 +143,7 @@ For balanced-classification problems, where every class is equally likely, accur
 class-imbalanced problems, you can use precision and recall. For ranking problems or multilabel classification, you can use mean average precision. And it isn’t uncommon
 to have to define your own custom metric by which to measure success. 
 
-# 3. Stategy to evaluate your model
+## 3. Stategy to evaluate your model
 
 Once you know what you’re aiming for, you must establish how you’ll measure your current progress. Three common approaches are:
 
@@ -145,7 +154,7 @@ Once you know what you’re aiming for, you must establish how you’ll measure 
 Just pick one of these. 
 
 
-# 4. Data preparation
+## 4. Data preparation
 
 Once you know what you’re training on, what you’re optimizing for, and how to evaluate your approach, you’re almost ready to begin training models. But first, you should format your data in a way that can be fed into a machine-learning model—here:
 
@@ -157,7 +166,7 @@ For NN:
  - If different features take values in different ranges (heterogeneous data), then the data should be normalized.
 
 
-# 5. Model architecture
+## 5. Model architecture
 
 Your goal at this stage is to achieve statistical power: that is, to develop a small model that is capable of beating a dumb baseline. 
 
@@ -184,7 +193,8 @@ Regarding the choice of a loss function, note that it isn’t always possible to
 
 For instance, the widely used classification metric ROC AUC can’t be directly optimized. Hence, in classification tasks, it’s common to optimize for a proxy metric of ROC AUC, such as crossentropy. In general, you can hope that the lower the crossentropy gets, the higher the ROC AUC will be.
 
-# 6. Developing a model that overfits
+
+## 6. Developing a model that overfits
 
 Once you’ve obtained a model that has statistical power, the question becomes, is your model sufficiently powerful? Does it have enough layers and parameters to properly
 model the problem at hand? **Remember that the universal tension in machine learning is between optimization and generalization**; the ideal model is one that stands right at the border
@@ -204,7 +214,7 @@ In general, at this stage you are looking to reduce the bias of you model by wor
 in the next step.
 
 
-# 7. Regularization
+## 7. Regularization
 
 This step will take the most time: you’ll repeatedly modify your model, train it, evaluate on your validation data (not the test data, at this point), modify it again, and repeat, until the model is as good as it can get. 
 
