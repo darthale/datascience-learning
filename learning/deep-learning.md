@@ -134,14 +134,17 @@ Keep in mind that machine learning can only be used to memorize patterns that ar
 
 ## 2. Measuring success 
 
-To control something, you need to be able to observe it. To achieve success, you must define what you mean by success—accuracy? Precision and recall? Customer-retention
-rate? Your metric for success will guide the choice of a loss function: what your model will optimize. It should directly align with your higher-level goals, such as the success
-of your business.
+To control something, you need to be able to observe it. To achieve success, you must define what you mean by success. accuracy? Precision and recall? Customer-retention rate? Your metric for success will guide the choice of a loss function: what your model will optimize. It should directly align with your higher-level goals, such as the success of your business.
 
 
 For balanced-classification problems, where every class is equally likely, accuracy and area under the receiver operating characteristic curve (ROC AUC) are common metrics. For
-class-imbalanced problems, you can use precision and recall. For ranking problems or multilabel classification, you can use mean average precision. And it isn’t uncommon
-to have to define your own custom metric by which to measure success. 
+class-imbalanced problems, you can use precision and recall. For ranking problems or multilabel classification, you can use mean average precision.
+
+At this stage, your goal is to narrow down: 
+
+- The metric you want to measure: accuracy, ROC AUC, MAE, etc.
+- The loss function you want to optimise: binary cross entropy, MSE, etc.
+
 
 ## 3. Stategy to evaluate your model
 
@@ -156,37 +159,41 @@ Just pick one of these.
 
 ## 4. Data preparation
 
-Once you know what you’re training on, what you’re optimizing for, and how to evaluate your approach, you’re almost ready to begin training models. But first, you should format your data in a way that can be fed into a machine-learning model—here:
+Once you know what you’re training on, what you’re optimizing for, and how to evaluate your approach, you’re almost ready to begin training models. But first, you should format your data in a way that can be fed into a machine-learning model.
 
-For NN:
+For Neural Networks:
 
  - Your data should be formatted as tensors.
  - The values taken by these tensors should usually be scaled to small values: for example, in the [-1, 1] range or [0, 1] range.
- - You may want to do some feature engineering, especially for small-data problems.
  - If different features take values in different ranges (heterogeneous data), then the data should be normalized.
+- You may want to do some feature engineering, especially for small-data problems.
 
 
-## 5. Model architecture
+
+## 5. Developing a model that does better than a baseline
 
 Your goal at this stage is to achieve statistical power: that is, to develop a small model that is capable of beating a dumb baseline. 
 
+<details>
+<summary>
+<i>Note on statistical power</i>
+</summary>
+<p>It’s not always possible to achieve statistical power. If you can’t beat a random baseline after trying multiple reasonable architectures, it may be that the answer
+to the question you’re asking isn’t present in the input data. Remember that you make two hypotheses:
 
-*Note: it’s not always possible to achieve statistical power. If you can’t beat a random baseline after trying multiple reasonable architectures, it may be that the answer
-to the question you’re asking isn’t present in the input data. Remember that you make two hypotheses:*
+- You hypothesize that your outputs can be predicted given your inputs.
+- You hypothesize that the available data is sufficiently informative to learn the relationship between inputs and outputs.
 
-*- You hypothesize that your outputs can be predicted given your inputs.*
+It may well be that these hypotheses are false, in which case you must go back to the drawing board.</p>
+</details>
 
-*- You hypothesize that the available data is sufficiently informative to learn the relationship between inputs and outputs.*
+To build a working model, you need to choose:
 
-
-*It may well be that these hypotheses are false, in which case you must go back to the drawing board.*
-
-Assuming that things go well, you need to make three key choices to build your first working model:
-
-1. *Last-layer activation*: this establishes useful constraints on the network’s output. For a classification problem you should use sigmoid; for a regression one you don't need a last-layer artivation, etc. 
+1. *Last-layer activation*: this establishes useful constraints on the network’s output. For a classification problem you should use sigmoid (it contraints output between 0 and 1); for a regression one you don't need a last-layer artivation, a softmax (it ouputs the probability distribution over N output classes) etc. 
 2. *Loss function*: this should match the type of problem you’re trying to solve. For
 a binary classification problem you could use **binary_crossentropy**, a regression one you could use **mse**, and so on.
 3. *Optimization configuration*: what optimizer will you use? What will its learning rate be? 
+4. *Metric*: which metric you want to monitor? ROC AUC, accuracy, MAE, etc.
 
 
 Regarding the choice of a loss function, note that it isn’t always possible to directly optimize for the metric that measures success on a problem. Sometimes there is no easy way to turn a metric into a loss function; loss functions, after all, need to be computable given only a mini-batch of data (ideally, a loss function should be computable for as little as a single data point) and must be differentiable (otherwise, you can’t use backpropagation to train your network). 
@@ -208,15 +215,19 @@ This is fairly easy:
 
 Always monitor the training loss and validation loss, as well as the training and validation values for any metrics you care about. When you see that the model’s performance on the validation data begins to degrade, you’ve achieved overfitting.
 
+![Loss monitoring](loss_monitoring.png)
+
+![Metric monitoring](metric_monitoring.png)
+
+
 At this stage, you are tuning your **hyperparameters** (that differ from the **parameters** of the model you have chosen upon, the weights are the parameters of the model). So **hyperparameters tuning** is done using the validation set. The next stage is to start regularizing and tuning the model (also here you will leverage hyperparameters), to get as close as possible to the ideal model that neither underfits nor overfits. 
 
-In general, at this stage you are looking to reduce the bias of you model by working on the cost function that you aim to optimize. This leads to low bias, but maybe high variance and you'll tackle that 
-in the next step.
+In general, at this stage you are looking to reduce the bias of you model by working on the cost function that you aim to optimize. This leads to low bias, but maybe high variance and you'll tackle that in the next step.
 
 
 ## 7. Regularization
 
-This step will take the most time: you’ll repeatedly modify your model, train it, evaluate on your validation data (not the test data, at this point), modify it again, and repeat, until the model is as good as it can get. 
+This step will take the most time: you’ll repeatedly modify your model, train it, evaluate on your validation data, modify it again, and repeat, until the model is as good as it can get. 
 
 
 For NN, these are some things you should try to get a model that perform better on the validation set:
@@ -228,22 +239,20 @@ For NN, these are some things you should try to get a model that perform better 
  - Try different hyperparameters (such as the number of units per layer or the learning rate of the optimizer) to find the optimal configuration.
  - Optionally, iterate on feature engineering: add new features, or remove features that don’t seem to be informative.
 
+<details>
+<summary>
+<i>L2 and dropout</i>
+</summary>
+<p>In general, the idea behind dropout and L2 is to simplifying the network architecture. Either by removing units within layers (dropout) or having smaller values for the weight in each units (L2).</p>
+</details>
+
 
 *Be mindful of the following: every time you use feedback from your validation process to tune your model, you leak information about the validation process into the model.*
 
 Repeated just a few times, this is innocuous; but done systematically over many iterations, it will eventually cause your model to overfit to the validation process (even though no model is directly trained on any of the validation data). This makes the evaluation process less reliable.
 
 
-Once you’ve developed a satisfactory model configuration, you can train your final production model on all the available data (training and validation) and evaluate it
-one last time on the test set. If it turns out that performance on the test set is significantly worse than the performance measured on the validation data, this may mean either that your validation procedure wasn’t reliable after all, or that you began overfitting to the validation data while tuning the parameters of the model. In this case, you may want to switch to a more reliable evaluation protocol (such as iterated K-fold validation). 
-
-
-We can think of our framework as an iterative process. As the picture below shows, we usually start with a simple NN with *high bias*. Once we implemented few steps to reduce bias, we examine the NN 
-variance against the validation set. If we have *high variance* (overfitting on validation set), we can try to reduce it by applying regularizaion techniques such us L1 vs L2 or dropouts. 
-
-In general, the idea behind dropout and L2 is to simplifying the network architecture. Either by removing units within layers (dropout) or having smaller values for the weight in each units (L2).
-
-![Bians-variance framework](bias-variance_framework.jpg)
+Once you’ve developed a satisfactory model configuration, you can train your final production model on all the available data (training and validation) and evaluate it one last time on the test set. If it turns out that performance on the test set is significantly worse than the performance measured on the validation data, this may mean either that your validation procedure wasn’t reliable after all, or that you began overfitting to the validation data while tuning the parameters of the model. In this case, you may want to switch to a more reliable evaluation protocol (such as iterated K-fold validation). 
 
 
 
