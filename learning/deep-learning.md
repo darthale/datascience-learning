@@ -23,7 +23,7 @@ This document aims to summarise deep-learning important aspects collected during
 
 **Machine Learning vs Classical Programming**
 
-![ML vs CP](MLvsProgramming.png)
+![ML vs CP](img/MLvsProgramming.png)
 
 # Deep learning vs Other ML approaches
 
@@ -97,7 +97,7 @@ For instance, you’ll use binary crossentropy for a two-class classification pr
 
 If we put all of the above together, we can summarise using this diagram:
 
-![NN process](NN_process.jpeg)
+![NN process](img/NN_process.jpeg)
 
 
 # Deep Learning - Reference Framework
@@ -215,9 +215,9 @@ This is fairly easy:
 
 Always monitor the training loss and validation loss, as well as the training and validation values for any metrics you care about. When you see that the model’s performance on the validation data begins to degrade, you’ve achieved overfitting.
 
-![Loss monitoring](loss_monitoring.png)
+![Loss monitoring](img/loss_monitoring.png)
 
-![Metric monitoring](metric_monitoring.png)
+![Metric monitoring](img/metric_monitoring.png)
 
 
 At this stage, you are tuning your **hyperparameters** (that differ from the **parameters** of the model you have chosen upon, the weights are the parameters of the model). So **hyperparameters tuning** is done using the validation set. The next stage is to start regularizing and tuning the model (also here you will leverage hyperparameters), to get as close as possible to the ideal model that neither underfits nor overfits. 
