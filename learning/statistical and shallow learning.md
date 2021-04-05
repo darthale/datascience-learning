@@ -1,3 +1,6 @@
+[WORK IN PROGRESS]
+
+
 - [Intro](#intro)
 - [Cross-validation](#cross-validation)
 - [Regularization and model selection](#regularization-and-model-selection)
@@ -42,6 +45,16 @@ The general procedure is as follows:
 
 Importantly, each observation in the data sample is assigned to an individual group and stays in that group for the duration of the procedure. This means that each sample is given the opportunity to be used in the hold out set 1 time and used to train the model k-1 times.
 
+# Feature Scaling: Normalization vs Standardization
+
+https://www.analyticsvidhya.com/blog/2020/04/feature-scaling-machine-learning-normalization-standardization/
+
+https://www.statisticshowto.com/probability-and-statistics/normal-distributions/normalized-data-normalization
+
+Why is important for NN and ML? For NN, standardizing features, makes the cost optimization process easier/quikcer since features have a similar scale and the learning rate can assume bigger values (improving the speed of gradient descent)
+
+
+Very Important: when you want to scale your features, the scaling need to be calculated exculsively on your training data. If you include your test data, then you can incur in data leakage. At prediction time you will always use the same scaler fitted to the training data, because the assumptions is that the training dataset captures the distribution of your data. (https://datascience.stackexchange.com/questions/39932/feature-scaling-both-training-and-test-data/39933)
 
 # Regularization and model selection
 
